@@ -6,13 +6,20 @@ const Selectors = {
     ul: '.books-list',
     li: '.books-list .book',
     img: 'book__image',
+  },
+  forms: {
+    filter: '.filters',
+    filterInputs: '.filters input',
   }
 };
 
 const DOMElements = {
   booksPanel: {
     list: document.querySelector(Selectors.booksPanel.ul),
-  }
+  },
+  forms: {
+    filtersForm: document.querySelector(Selectors.forms.filter),
+  },
 };
 
 
@@ -56,10 +63,6 @@ for (let book of booksData){
 
 const favoriteBooks = [];
 
-const books = document.querySelectorAll(Selectors.booksPanel.li);
-const booksArray = Array.from(books);
-console.log('booksArray: ',booksArray);
-
 function initAction(event) {
   if(event.target.localName === 'img'){
     const bookIMG = event.target.parentElement.parentElement;
@@ -81,4 +84,42 @@ function initAction(event) {
     }}
 }
 
+function filteringBooks(event) {
+  if(event.target.localName === 'input'){
+
+    if(event.target.checked){
+      const targetValue = event.target.value;
+
+      for ( let book of booksData){
+
+        if( book.details[targetValue]){
+          const bookId = book.id;
+          const filteredBooks = document.querySelectorAll('[data-id="' + bookId +'"]');
+
+          for ( let filteredBook of filteredBooks){
+            filteredBook.classList.add('hidden');
+          }
+        }
+      }
+    } else {
+      console.log(event.target.value, 'has been unchecked');
+
+      const targetValue = event.target.value;
+      for ( let book of booksData){
+
+        if( book.details[targetValue]){
+          const bookId = book.id;
+          const filteredBooks = document.querySelectorAll('[data-id="' + bookId +'"]');
+
+          for ( let filteredBook of filteredBooks){
+            filteredBook.classList.remove('hidden');
+          }
+        }
+      }
+    }
+  }
+}
+
 DOMElements.booksPanel.list.addEventListener('dblclick', initAction);
+
+DOMElements.forms.filtersForm.addEventListener('change', filteringBooks);
