@@ -1,7 +1,7 @@
 const booksData = dataSource.books;
 console.log(booksData);
 
-const Selectors = {
+const selectors = {
   booksPanel: {
     ul: '.books-list',
     li: '.books-list .book',
@@ -13,28 +13,34 @@ const Selectors = {
   }
 };
 
-const DOMElements = {
+const domElements = {
   booksPanel: {
-    list: document.querySelector(Selectors.booksPanel.ul),
+    list: document.querySelector(selectors.booksPanel.ul),
   },
   forms: {
-    filtersForm: document.querySelector(Selectors.forms.filter),
+    filtersForm: document.querySelector(selectors.forms.filter),
   },
 };
 
+const templates = {
+  booksTemplate: Handlebars.compile(document.querySelector('#template-book').innerHTML),
+};
 
-for (let book of booksData){
-  const booksTemplate = Handlebars.compile(document.querySelector('#template-book').innerHTML);
-  const booksGeneratedHTML = booksTemplate(book);
+function renderBookPanel (booksData) {
+  for (let book of booksData){
+    const booksGeneratedHTML = templates.booksTemplate(book);
 
-  const DOMElement = utils.createDOMFromHTML(booksGeneratedHTML);
+    const domElement = utils.createDOMFromHTML(booksGeneratedHTML);
 
-  DOMElements.booksPanel.list.appendChild(DOMElement);
+    domElements.booksPanel.list.appendChild(domElement);
+  }
 }
+
+renderBookPanel(booksData);
 
 // -----------------------------------Add listener to books 1---------------------------
 
-// const listElements = document.querySelectorAll(Selectors.booksPanel.li);
+// const listElements = document.querySelectorAll(selectors.booksPanel.li);
 // console.log(listElements);
 
 // for ( let listElement of listElements){
@@ -120,6 +126,6 @@ function filteringBooks(event) {
   }
 }
 
-DOMElements.booksPanel.list.addEventListener('dblclick', initAction);
+domElements.booksPanel.list.addEventListener('dblclick', initAction);
 
-DOMElements.forms.filtersForm.addEventListener('change', filteringBooks);
+domElements.forms.filtersForm.addEventListener('change', filteringBooks);
