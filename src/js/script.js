@@ -65,67 +65,73 @@ renderBookPanel(booksData);
 //   });
 // }
 
-// -----------------------------------Add listener to books 2---------------------------
 
-const favoriteBooks = [];
+function initAction() {
 
-function initAction(event) {
-  if(event.target.localName === 'img'){
-    const bookIMG = event.target.parentElement.parentElement;
-    bookIMG.classList.toggle('favorite');
+  const favoriteBooks = [];
 
-    if(bookIMG.classList.contains('favorite')){
-      const bookId = bookIMG.getAttribute('data-id');
-      const bookTitle = bookIMG.parentElement.querySelector('.book__name').innerHTML;
-      favoriteBooks.push(bookId + '. ' + bookTitle);
+  // -----------------------------------Add books to favorite---------------------------
 
-      console.log('favoriteBooks: ',favoriteBooks);
-    } else {
-      const bookId = bookIMG.getAttribute('data-id');
-      const bookTitle = bookIMG.parentElement.querySelector('.book__name').innerHTML;
-      const bookIdIndex = favoriteBooks.indexOf(bookId + '. ' + bookTitle);
-      favoriteBooks.splice(bookIdIndex, 1);
+  domElements.booksPanel.list.addEventListener('dblclick', (event) => {
 
-      console.log('favoriteBooks: ',favoriteBooks);
-    }}
-}
+    if(event.target.localName === 'img' && event.target.parentElement.parentElement.classList.contains('book__image')){
+      const bookIMG = event.target.parentElement.parentElement;
+      bookIMG.classList.toggle('favorite');
 
-function filteringBooks(event) {
-  if(event.target.localName === 'input'){
+      if(bookIMG.classList.contains('favorite')){
+        const bookId = bookIMG.getAttribute('data-id');
+        const bookTitle = bookIMG.parentElement.querySelector('.book__name').innerHTML;
+        favoriteBooks.push(bookId + '. ' + bookTitle);
 
-    if(event.target.checked){
-      const targetValue = event.target.value;
+        console.log('favoriteBooks: ',favoriteBooks);
+      } else {
+        const bookId = bookIMG.getAttribute('data-id');
+        const bookTitle = bookIMG.parentElement.querySelector('.book__name').innerHTML;
+        const bookIdIndex = favoriteBooks.indexOf(bookId + '. ' + bookTitle);
+        favoriteBooks.splice(bookIdIndex, 1);
 
-      for ( let book of booksData){
+        console.log('favoriteBooks: ',favoriteBooks);
+      }}
+  });
 
-        if( book.details[targetValue]){
-          const bookId = book.id;
-          const filteredBooks = document.querySelectorAll('[data-id="' + bookId +'"]');
+  // -----------------------------------Add book filter---------------------------
 
-          for ( let filteredBook of filteredBooks){
-            filteredBook.classList.add('hidden');
+  domElements.forms.filtersForm.addEventListener('change', (event) => {
+    if(event.target.localName === 'input'){
+
+      if(event.target.checked){
+        const targetValue = event.target.value;
+
+        for ( let book of booksData){
+
+          if( book.details[targetValue]){
+            const bookId = book.id;
+            const filteredBooks = document.querySelectorAll('[data-id="' + bookId +'"]');
+
+            for ( let filteredBook of filteredBooks){
+              filteredBook.classList.add('hidden');
+            }
           }
         }
-      }
-    } else {
-      console.log(event.target.value, 'has been unchecked');
+      } else {
+        console.log(event.target.value, 'has been unchecked');
 
-      const targetValue = event.target.value;
-      for ( let book of booksData){
+        const targetValue = event.target.value;
+        for ( let book of booksData){
 
-        if( book.details[targetValue]){
-          const bookId = book.id;
-          const filteredBooks = document.querySelectorAll('[data-id="' + bookId +'"]');
+          if( book.details[targetValue]){
+            const bookId = book.id;
+            const filteredBooks = document.querySelectorAll('[data-id="' + bookId +'"]');
 
-          for ( let filteredBook of filteredBooks){
-            filteredBook.classList.remove('hidden');
+            for ( let filteredBook of filteredBooks){
+              filteredBook.classList.remove('hidden');
+            }
           }
         }
       }
     }
-  }
+  });
+  
 }
 
-domElements.booksPanel.list.addEventListener('dblclick', initAction);
-
-domElements.forms.filtersForm.addEventListener('change', filteringBooks);
+initAction();
