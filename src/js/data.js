@@ -10,7 +10,7 @@ dataSource.books = [
     details: {
       adults: true,
       nonFiction: false
-    }
+    },
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ dataSource.books = [
     details: {
       adults: false,
       nonFiction: true
-    }
+    },
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ dataSource.books = [
     details: {
       adults: false,
       nonFiction: true
-    }
+    },
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ dataSource.books = [
     details: {
       adults: false,
       nonFiction: true
-    }
+    },
   },
   {
     id: 5,
@@ -54,7 +54,7 @@ dataSource.books = [
     details: {
       adults: false,
       nonFiction: false
-    }
+    },
   },
   {
     id: 6,
@@ -65,6 +65,6 @@ dataSource.books = [
     details: {
       adults: true,
       nonFiction: false
-    }
+    },
   },
 ];
