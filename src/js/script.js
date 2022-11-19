@@ -88,7 +88,7 @@ class BooksList {
         }}
     });
 
-    this.forms.filtersForm.addEventListener('change', (event) => {
+    this.filtersForm.addEventListener('change', (event) => {
       if(event.target.localName === 'input'){
 
         if(event.target.checked){
@@ -128,5 +128,4 @@ class BooksList {
 }
 
 const app = new BooksList(booksData);
-
-app();
+console.log(app);
